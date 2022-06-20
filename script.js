@@ -2,6 +2,12 @@ import {data} from './modules.js';
 
 const mainBlock = document.querySelector('.main__content');
 
+//placeholder. введенные значения
+const enterInput = document.getElementById('main__input'); // вывод введенных значений в input
+
+// получить набор карточек
+const  kitCartAll = document.querySelectorAll('.main__cart')
+
 function createCartInf(divImage, paragr, paragText) {
    let createDivCart = document.createElement('div')
    createDivCart.className = 'main__cart'
@@ -27,16 +33,6 @@ function createCartInf(divImage, paragr, paragText) {
 //присвоили каждой карточке свои элементы(symbol-иконка,title-название, keaywords-текст)
 data.forEach((item) => createCartInf(item.symbol, item.title, item.keywords))
 
-
-//???нужно отфильтровать элементы вмесио displayNone
-
-//placeholder. введенные значения
-const enterInput = document.getElementById('main__input'); // вывод введенных значений в input
-
-// получить набор карточек
-let kitCartAll = document.querySelectorAll('.main__cart')
-
-
 //получить тексты в карточкаъ (keywords)
 //let wordsOnTheCart = document.querySelector('.main__text')
 
@@ -52,7 +48,6 @@ let kitCartAll = document.querySelectorAll('.main__cart')
 //}
 
 //inputSearch() //Вызов функции поиска по карточкам (item)
-
 
 //TODO удаление повторяющихся элементов (начало кода)
 //повторяющиеся элементы (delete)
@@ -82,24 +77,9 @@ let kitCartAll = document.querySelectorAll('.main__cart')
 //console.log(uniqByKeepLast(data1, it => it.u))
 //TODO удаление повторяющихся элементов (конец)
 
-/*----------*/
-//function filterNoRepeat(items){
-//   let wordsOnTheCart = document.querySelector('.main__text')
-//   //wordsOnTheCart.filter((item, index) => wordsOnTheCart.indexOf(item) === index);
-//   //console.log(filterNoRepeat)
-//   if(wordsOnTheCart(items.keywords) === items.keywords){
-//      return wordsOnTheCart
-//   }
-//} 
-//filterNoRepeat()
-
-/*-----------*/
-
-function inputSearch() {
-      let inputValue = enterInput.value;
-      let newData = data.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(inputValue.trim().toLowerCase()))
-      mainBlock.innerHTML = '';
-      return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));
+function inputSearch(event) {
+   let newData = data.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
+   mainBlock.innerHTML = '';
+   return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));
 }
 enterInput.addEventListener('input', (event) => inputSearch(event))
-//inputSearch() //Вызов функции поиска по карточкам (item)
