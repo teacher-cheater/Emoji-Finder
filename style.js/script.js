@@ -1,5 +1,4 @@
-import {data} from './modules.js';
-
+//import {data} from './modules.js';
 const mainBlock = document.querySelector('.main__content');
 
 //placeholder. введенные значения
@@ -9,15 +8,39 @@ const enterInput = document.getElementById('main__input'); // вывод вве�
 const  kitCartAll = document.querySelectorAll('.main__cart')
 
 //глобальная переменная для уникальных элементов из объекта data
-const uniqData = uniqKeyWords(data);
+//const uniqData = uniqKeyWords(data);
 
-//перебор старого массива и удаление повторяющихся объектов
-function uniqKeyWords(arrayOldData){
-   return arrayOldData.map((emojiObj)=> {
-      return {...emojiObj, keywords: [...new Set(emojiObj.keywords.split(' '))].join(' ')}
-})
+//https://emoji.ymatuhin.workers.dev
+// получать данные по урл адресу
+async function data(){
+   const prom = await fetch('https://emoji.ymatuhin.workers.dev');
+   console.log(prom)
+   const data = await prom.json()
+   console.log(data)
+
+   //глобальная переменная для уникальных элементов из объекта data
+   const uniqData = uniqKeyWords(data);
+   //перебор старого массива и удаление повторяющихся объектов
+   function uniqKeyWords(arrayOldData){
+      return arrayOldData.map((emojiObj)=> {
+         return {...emojiObj, keywords: [...new Set(emojiObj.keywords.split(' '))].join(' ')}
+      })
+   }
+
+   //присвоили каждой карточке свои элементы(symbol-иконка,title-название, keaywords-текст)
+   uniqData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords))
+
+   //функция: фильтр карт, поиск по title(убрали зависимость от пробелов и регистра)
+   function inputSearch(event) {
+      let newData = uniqData.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
+      mainBlock.innerHTML = ''; //очистили блок со старыми картами
+         return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));//создали новыуб карту со знач.введенными в input
+   }
+   enterInput.addEventListener('input', (event) => inputSearch(event))//присвоили прослушку по введенным значениям
 }
+data()
 
+//функция: создание блоков, в которых создали и добавили карты с эмоджи
 function createCartInf(divImage, paragr, paragText) {
    let createDivCart = document.createElement('div')
    createDivCart.className = 'main__cart'
@@ -40,13 +63,5 @@ function createCartInf(divImage, paragr, paragText) {
    mainBlock.append(createDivCart); // добавление карт в блок
 }
 
-//присвоили каждой карточке свои элементы(symbol-иконка,title-название, keaywords-текст)
-uniqData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords))
 
 
-function inputSearch(event) {
-   let newData = uniqData.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
-   mainBlock.innerHTML = '';
-   return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));
-}
-enterInput.addEventListener('input', (event) => inputSearch(event))
