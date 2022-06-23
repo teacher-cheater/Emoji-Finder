@@ -5,15 +5,17 @@ const mainBlock = document.querySelector('.main__content');
 const enterInput = document.getElementById('main__input'); // вывод введенных значений в input
 
 // получить набор карточек
-const  kitCartAll = document.querySelectorAll('.main__cart')
+const kitCartAll = document.querySelectorAll('.main__cart')
 
-//глобальная переменная для уникальных элементов из объекта data
-//const uniqData = uniqKeyWords(data);
 
-//https://emoji.ymatuhin.workers.dev
-// получать данные по урл адресу
-async function data(){
-   const prom = await fetch('https://emoji.ymatuhin.workers.dev');
+//создали асинхронную функцию 
+async function data() {
+   const prom = await fetch('http://localhost:7000/emoji', {
+      method: 'GET',
+      headers: {
+         'Access-Control-Allow-Origin': '*'
+      }
+   });
    console.log(prom)
    const data = await prom.json()
    console.log(data)
@@ -21,9 +23,9 @@ async function data(){
    //глобальная переменная для уникальных элементов из объекта data
    const uniqData = uniqKeyWords(data);
    //перебор старого массива и удаление повторяющихся объектов
-   function uniqKeyWords(arrayOldData){
-      return arrayOldData.map((emojiObj)=> {
-         return {...emojiObj, keywords: [...new Set(emojiObj.keywords.split(' '))].join(' ')}
+   function uniqKeyWords(arrayOldData) {
+      return arrayOldData.map((emojiObj) => {
+         return { ...emojiObj, keywords: [...new Set(emojiObj.keywords.split(' '))].join(' ') }
       })
    }
 
@@ -34,7 +36,7 @@ async function data(){
    function inputSearch(event) {
       let newData = uniqData.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
       mainBlock.innerHTML = ''; //очистили блок со старыми картами
-         return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));//создали новыуб карту со знач.введенными в input
+      return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));//создали новыуб карту со знач.введенными в input
    }
    enterInput.addEventListener('input', (event) => inputSearch(event))//присвоили прослушку по введенным значениям
 }
