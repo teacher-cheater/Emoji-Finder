@@ -10,15 +10,14 @@ const kitCartAll = document.querySelectorAll('.main__cart')
 
 //создали асинхронную функцию 
 async function data() {
-   const prom = await fetch('http://localhost:7000/emoji', {
+   //const prom = await fetch('http://localhost:7000/emoji', { // для запуска через server node.js
+   const prom = await fetch('https://emoji.ymatuhin.workers.dev', { //убрать, когда запуск будет через server node
       method: 'GET',
-      headers: {
-         'Access-Control-Allow-Origin': '*'
-      }
+      //headers: {
+      //   'Access-Control-Allow-Origin': '*' // для запуска через server node.js
+      //}
    });
-   console.log(prom)
    const data = await prom.json()
-   console.log(data)
 
    //глобальная переменная для уникальных элементов из объекта data
    const uniqData = uniqKeyWords(data);

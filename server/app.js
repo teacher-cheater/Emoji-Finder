@@ -1,8 +1,8 @@
 import express from "express"
 import { data } from './modules.js'
 import cors from 'cors'
+
 const app = express();
-//const host = '127.0.0.1'
 const port = 7000
 
 app.use(cors())
