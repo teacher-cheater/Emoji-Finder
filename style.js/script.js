@@ -4,9 +4,6 @@ const mainBlock = document.querySelector('.main__content');
 //placeholder. введенные значения
 const enterInput = document.getElementById('main__input'); // вывод введенных значений в input
 
-// получить набор карточек
-const kitCartAll = document.querySelectorAll('.main__cart')
-
 
 //создали асинхронную функцию 
 async function data() {
@@ -33,7 +30,7 @@ async function data() {
 
    //функция: фильтр карт, поиск по title(убрали зависимость от пробелов и регистра)
    function inputSearch(event) {
-      let newData = uniqData.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
+      const newData = uniqData.filter((kitCartAll) => kitCartAll.title.toLowerCase().includes(event.target.value.trim().toLowerCase()))
       mainBlock.innerHTML = ''; //очистили блок со старыми картами
       return newData.forEach((item) => createCartInf(item.symbol, item.title, item.keywords));//создали новыуб карту со знач.введенными в input
    }
@@ -43,26 +40,28 @@ data()
 
 //функция: создание блоков, в которых создали и добавили карты с эмоджи
 function createCartInf(divImage, paragr, paragText) {
-   let createDivCart = document.createElement('div')
+   const createDivCart = document.createElement('div')
    createDivCart.className = 'main__cart'
 
-   let createDivImg = document.createElement('div')
+   const createDivImg = document.createElement('div')
    createDivImg.className = 'main__picture'
    createDivImg.textContent = divImage
    createDivCart.append(createDivImg)
 
-   let createParag = document.createElement('p')
+   const createParag = document.createElement('p')
    createParag.className = 'main__title'
    createParag.textContent = paragr
    createDivCart.append(createParag);
 
-   let createParagText = document.createElement('p')
+   const createParagText = document.createElement('p')
    createParagText.className = 'main__text'
    createParagText.textContent = paragText
    createDivCart.append(createParagText);
 
    mainBlock.append(createDivCart); // добавление карт в блок
 }
+
+
 
 
 

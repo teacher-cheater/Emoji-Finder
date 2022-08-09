@@ -13,8 +13,6 @@ app.get('/emoji', (req, res) => {
 })
 
 
-
-
-app.listen(port, function () {
+app.listen(port, () => {
    console.log(`Server listens http://${port}`)
 })
